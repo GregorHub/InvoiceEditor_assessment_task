@@ -9,15 +9,15 @@
 
 
 
-<div class="container-fluid h-100"> 
-  <div class="row h-100">
-      <div class="col-md-2 h-100">
+<div class="container"> 
+  <div class="row  ">
+      <div class="col-md-2 no-float ">
     
-<app-sidebar [invoices_local]="invoicesList"  [currentSelectedInvoice]="currentSelectedInvoice" ></app-sidebar>
+<app-sidebar [invoices_local]="invoicesList"  [currentSelectedInvoice]="currentSelectedInvoice" (newInvoice)="addNewInvoice($event)" (selctNewInvoice)="selectInvoice($event)" ></app-sidebar>
 
 
       </div>
-      <div class="col-md-8 h-100">
+      <div class="col-md-8 no-float ">
          <div class="editorContainer">
 <app-editor></app-editor>
  

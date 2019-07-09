@@ -3,7 +3,12 @@
     padding-left: 100px;
     height: 100px;
     line-height: 100px;
+    font-size: 50px;
+}
 
+.fill { 
+    min-height: 100%;
+    height: 100vh;
 }
 
 html,body {
@@ -12,6 +17,28 @@ html,body {
 
 .editorContainer{
     width: 100%;
-height: 100%;
+    height: 100%;
     background-color: rgb(204, 204, 204);
+}
+
+
+html,body,.container {
+    height:80%;
+}
+.container {
+    display:table;
+    width: 100%;
+    margin-top: 0px;
+  
+    box-sizing: border-box;
+}
+
+.row {
+    height: 100%;
+    display: table-row;
+}
+
+.row .no-float {
+  display: table-cell;
+  float: none;
 }

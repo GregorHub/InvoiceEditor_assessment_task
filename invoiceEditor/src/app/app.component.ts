@@ -11,7 +11,7 @@ quantity:number
 price_cents:number
 }
 
-interface Invoice {
+export interface Invoice {
   customer_id:number,
   customer_name: string
   customer_contact_person: string
@@ -49,6 +49,17 @@ export class AppComponent {
   }
 
  
+  addNewInvoice($event){
+   console.log($event)
+   this.invoicesList.push($event)
+
+
+   this.currentSelectedInvoice=this.invoicesList[this.invoicesList.length-1]
+  }
+
+  selectInvoice($event){
+    this.currentSelectedInvoice=this.invoicesList[$event]
+  }
 
 
   currentSelectedInvoice;
