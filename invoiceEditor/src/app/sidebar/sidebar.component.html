@@ -1,0 +1,21 @@
+
+
+
+<div>
+    <h4>Rechnungen</h4>
+<button>+</button>
+</div>
+
+
+
+<div *ngFor="let e of invoices_local" class="list-group">
+    
+    {{e.customer_name}}
+
+
+</div>
+
+
+
+<button class="align-self-end btn btn-lg btn-block btn-primary" (click)="importJson()">Import</button>
+<button class="align-self-end btn btn-lg btn-block btn-primary" (click)="exportJson()">Export</button>
