@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import raw_invoices from 'src/assets/raw_invoices.json';
+import { Subject } from 'rxjs';
 
 
 
@@ -29,7 +30,11 @@ export interface Invoice {
   invoice_period: string
   invoice_date: string
   invoice_due_date:string
-  line_items:{}
+  line_items:lineItems[]
+  netto?:number
+  taxes?:number
+  brutto?:number
+
 }
 
 
@@ -41,11 +46,13 @@ export interface Invoice {
 export class AppComponent {
   title = 'invoiceEditor';
   invoicesList:Invoice[];
+  currentSelectedInvoice:Invoice;
 
   constructor(){
 
       this.invoicesList=raw_invoices
       this.currentSelectedInvoice=this.invoicesList[0]
+      this.calcBNT({})
   }
 
  
@@ -55,15 +62,40 @@ export class AppComponent {
 
 
    this.currentSelectedInvoice=this.invoicesList[this.invoicesList.length-1]
+   this.emitEventToChild()
   }
+
 
   selectInvoice($event){
+    
+
     this.currentSelectedInvoice=this.invoicesList[$event]
+
+
+    this.emitEventToChild()
+   console.log(this.currentSelectedInvoice)
   }
 
 
-  currentSelectedInvoice;
+calcBNT($event){
+this.invoicesList.forEach(element => {
+  
+  var c=0
+  element.line_items.forEach(el => {
+    c=c+(el.price_cents*el.quantity)
+  });
+  
+  element.netto=c/100
+});
+}
 
+
+private eventsSubject: Subject<void> = new Subject<void>();
+
+emitEventToChild() {
+  this.eventsSubject.next()
+
+}
 
 
 }

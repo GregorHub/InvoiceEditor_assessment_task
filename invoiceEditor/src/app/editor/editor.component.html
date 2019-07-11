@@ -1,1 +1,138 @@
-<p>editor works!</p>
+
+
+
+
+
+<div class="container">
+
+<button (click)="refresh()">refreseh</button>
+
+<form [formGroup]="myForm"  >
+  <div class="row">
+    <div class="col-md-5 no-float ">
+        <h4>Allgemeine Informationen</h4>
+
+
+   
+   <div class="form-group row">
+    <label class="col-sm-4 col-form-label" >Id</label>
+    <input class="col-sm-4" formControlName="customer_id" >
+    </div> 
+    
+    
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label" >Name</label>
+       <input class="col-sm-4"   formControlName="customer_name" >
+    </div> 
+     
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label" >Kontaktperson</label>
+       <input class="col-sm-4"   formControlName="customer_contact_person" >
+    </div> 
+    
+   
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label" >Anschrift</label>
+       <input class="col-sm-4"   formControlName="customer_address" >
+    </div> 
+
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label" >PLZ</label>
+       <input class="col-sm-4"   formControlName="customer_zip" >
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label" >Ort</label>
+       <input class="col-sm-4"   formControlName="customer_city" >
+    </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="col-md-5 no-float "><h4>ZahlungsInformationen</h4>
+    
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >IBAN</label>
+         <input class="col-sm-4"   formControlName="iban" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >BIC</label>
+         <input class="col-sm-4"   formControlName="bic" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >Kontoinhaber</label>
+         <input class="col-sm-4"   formControlName="account_owner" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >Mandatsreferenz</label>
+         <input class="col-sm-4"   formControlName="mandate_reference" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >Mandat Ort</label>
+         <input class="col-sm-4"   formControlName="mandate_city" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >Mandat Datum</label>
+         <input class="col-sm-4"   formControlName="mandate_date" >
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" >Mandat Person</label>
+         <input class="col-sm-4"   formControlName="mandate_signee" >
+      </div>
+    </div>
+  </div>  
+
+
+
+  <div class="row">
+    <div class="col-md-10 no-float  "><h4>Rechnungsdaten</h4>
+    
+      <div class="row form-group row">
+        <div >
+          <label class="col-sm-2 col-form-label" >Rechnungsnummer</label>
+           <input class="col-sm-3"   formControlName="invoice_number" >
+      </div>
+      <div >
+        <label class="col-sm-2 col-form-label" >Rechnungsdatum</label>
+         <input class="col-sm-3"   formControlName="invoice_date" >
+    </div>
+      </div>
+
+
+
+      <div class="row form-group row">
+          <div >
+              <label class="col-sm-2 col-form-label" >Zeitraum</label>
+               <input class="col-sm-3"   formControlName="invoice_period" >
+          </div>
+          <div >
+            <label class="col-sm-2 col-form-label" >Fälligkeitsdatum</label>
+             <input class="col-sm-3"   formControlName="invoice_due_date" >
+        </div>
+       
+     
+     
+     
+     
+      </div>
+  
+ 
+
+  </div>  
+</div>
+
+
+  <div class="row">
+        <div class="col-md-5 no-float "><h4>Rechnungsposten</h4></div>
+    
+      </div> 
+
+
+    </form>
+
+
+
+</div>

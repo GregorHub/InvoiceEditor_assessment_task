@@ -13,7 +13,7 @@ import { Invoice } from '../app.component';
 export class SidebarComponent implements OnInit {
 
   @Input() invoices_local
-  @Input() currentSelectedInvoice
+  @Input() currentSelectedInvoice:Invoice
   @Output() newInvoice = new EventEmitter();
   @Output() selctNewInvoice= new EventEmitter();
    constructor() { }
@@ -21,6 +21,10 @@ export class SidebarComponent implements OnInit {
   importJson(){
   var newJson= prompt("json eingeben","")
     console.log(newJson)
+
+    var newInvoice:Invoice= JSON.parse( newJson)
+    console.log(newInvoice)
+    this.newInvoice.emit(newInvoice)
 
   }
 
@@ -56,6 +60,9 @@ export class SidebarComponent implements OnInit {
 
   selectCurrentInvoice(i){
     this.selctNewInvoice.emit(i)
+
+
+
   }
 
   exportJson(){

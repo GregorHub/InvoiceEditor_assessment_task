@@ -3,7 +3,7 @@
 
 
 <div class="header">
-  Rechnugs Editor
+  Rechnungs-Editor
 </div>
 
 
@@ -13,13 +13,13 @@
   <div class="row  ">
       <div class="col-md-2 no-float ">
     
-<app-sidebar [invoices_local]="invoicesList"  [currentSelectedInvoice]="currentSelectedInvoice" (newInvoice)="addNewInvoice($event)" (selctNewInvoice)="selectInvoice($event)" ></app-sidebar>
+<app-sidebar [invoices_local]="invoicesList"  [currentSelectedInvoice]="currentSelectedInvoice" (newInvoice)="addNewInvoice($event)" (selctNewInvoice)="selectInvoice($event)"  ></app-sidebar>
 
 
       </div>
       <div class="col-md-8 no-float ">
          <div class="editorContainer">
-<app-editor></app-editor>
+<app-editor [currentSelectedInvoice]="currentSelectedInvoice" [events]="eventsSubject.asObservable()" ></app-editor>
  
          </div>
       </div>
