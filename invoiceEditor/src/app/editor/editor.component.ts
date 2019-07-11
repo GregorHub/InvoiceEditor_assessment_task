@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { AppComponent } from '../app.component';
+import { BehaviorSubject, Observable, empty } from 'rxjs';
+import { AppComponent, Invoice } from '../app.component';
+
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
@@ -13,9 +14,8 @@ export class EditorComponent implements OnInit {
 
   myForm: FormGroup;
 
-
-
-
+ 
+  items:FormArray
 
 
 
@@ -29,19 +29,35 @@ export class EditorComponent implements OnInit {
 
 
   ngOnInit() {
-
+ 
     this.setFormValue()
-
+    this.onChanges()
     this.eventsSubscription = this.events.subscribe(() =>
     { this.currentSelectedInvoice=this.ac.currentSelectedInvoice
       this.refresh()
     
-      console.log(this.currentSelectedInvoice)
-      
-  console.log("refreseh")    
-
+   
+      this.onChanges()
     })
+
+
+   this.currentSelectedInvoice.line_items.forEach(element => {
+     this.createNewEmptyItem()
+   });
+
+
   }
+
+  onChanges(): void {
+    this.myForm.valueChanges.subscribe(val => {
+      
+     console.log(val)
+     
+
+    });
+  }
+
+
 
 setFormValue(){
 
@@ -63,19 +79,60 @@ setFormValue(){
     invoice_number: this.currentSelectedInvoice.invoice_number,
     invoice_period: this.currentSelectedInvoice.invoice_period	,
     invoice_date: 	this.currentSelectedInvoice.invoice_date,
-    invoice_due_date:this.currentSelectedInvoice.invoice_due_date
-
-
-
+    invoice_due_date:this.currentSelectedInvoice.invoice_due_date,
+    items:this.fb.array([])
   })
+
+this.currentSelectedInvoice.line_items.forEach(element => {
+    var n = this.fb.group({
+      name: element.name,
+      description:element.description, 
+      quantity: element.quantity,
+      price_cents:element.price_cents
+    })
+    this.items=this.myForm.get("items") as FormArray
+    this.items.push(n)
+});
+
 }
+
+createNewEmptyItem():FormGroup{
+  return this.fb.group({
+    name: "",
+    description:"", 
+    quantity: "",
+    price_cents:""
+  })
+
+}
+
+
+
+addItem(){
+  this.items=this.myForm.get("items") as FormArray
+  this.items.push(this.createNewEmptyItem())
+}
+
+
+removeItem(i){
+  this.items=this.myForm.get("items") as FormArray
+  this.items.removeAt(i)
+}
+
+
+
 
 refresh(){
   this.currentSelectedInvoice=this.ac.currentSelectedInvoice
   this.myForm.reset()
   this.setFormValue()
-
+  
 }
+
+
+
+
+
 
 
 }

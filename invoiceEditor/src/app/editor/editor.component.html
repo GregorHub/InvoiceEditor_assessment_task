@@ -7,6 +7,7 @@
 
 <button (click)="refresh()">refreseh</button>
 
+
 <form [formGroup]="myForm"  >
   <div class="row">
     <div class="col-md-5 no-float ">
@@ -126,8 +127,46 @@
 
 
   <div class="row">
-        <div class="col-md-5 no-float "><h4>Rechnungsposten</h4></div>
-    
+
+      <div class="row"> 
+          <div class="col-md-12 no-float "><h4>Rechnungsposten</h4></div></div>
+      <div class="row "> 
+          <div class="col-md-1 no-float "><h5>Pos</h5></div>
+          <div class="col-md-2 no-float "><h5>Name</h5></div>
+          <div class="col-md-4 no-float "><h5>Beschreibung</h5></div>
+          <div class="col-md-1 no-float "><h5>Anzahl</h5></div>
+          <div class="col-md-1 no-float "><h5>Einzelpreis</h5></div>
+          <div class="col-md-1 no-float "><h5>Summe</h5></div>
+        </div>
+      
+         <div formArrayName="items" *ngFor="let item of myForm.get('items').controls; index as i" class="form-group row"> 
+         <div [formGroupName]="i">
+          <div class=" col-md-1">
+             <span class=" col-md-1">{{i+1}}</span>
+            </div> 
+            <div class="col-md-2 no-float">
+              <input class="col-md-10 no-float" formControlName="name">
+               </div> 
+
+               <div class=" col-md-4 no-float">
+                <input class=" col-md-10 no-float" formControlName="description"  >
+                 </div>    
+                 <div class=" col-md-1 no-float">
+                    <input class=" col-md-10 no-float" formControlName="quantity"   >
+                   </div>  
+                   <div class=" col-md-1 no-float">
+                      <input class=" col-md-10 no-float"  formControlName="price_cents"  type="number" >
+                     </div> 
+                     <div class=" col-md-1 no-float">
+                        <input class=" col-md-12 no-float" >
+                       </div>
+                      </div>
+                      <button class="btn btn-sm mt-2 btn-primary btnAdd" (click)="removeItem(i)" >delete</button>
+          </div>
+
+          <button class="btn btn-sm mt-2 btn-primary btnAdd" (click)="addItem()" >+</button>
+
+
       </div> 
 
 
