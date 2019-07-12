@@ -20,6 +20,9 @@ export class SidebarComponent implements OnInit {
   @Output() selctNewInvoice= new EventEmitter();
    constructor() { }
 
+   /**
+    * imports new Invoice
+    */
   importJson(){
   var newJson= prompt("json eingeben","")
     console.log(newJson)
@@ -30,7 +33,10 @@ export class SidebarComponent implements OnInit {
 
   }
 
-
+/**
+ * creates new Invoice
+ * 
+ */
   addNewInvoice(){
 
     var newInvoice= {
@@ -60,11 +66,18 @@ export class SidebarComponent implements OnInit {
 
   }
 
+  /**
+   * Select a new CurrentInvoice at Index i
+   * @param i Index
+   */
   selectCurrentInvoice(i){
     this.selctNewInvoice.emit(i)
     console.log(i)
   }
 
+  /**
+   * export Invoice in JSON Format to Console
+   */
   exportJson(){
       console.log(this.currentSelectedInvoice)
   }

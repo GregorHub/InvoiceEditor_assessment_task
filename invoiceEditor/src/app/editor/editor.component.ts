@@ -18,18 +18,21 @@ export class EditorComponent implements OnInit {
 
  sumArray:number[]=[]
  sumAll:number =0
- line_items:FormArray
+ line_items:FormArray  
 
 
   private eventsSubscription: any
 
-  @Input() events: Observable<void>
-  @Input() currentSelectedInvoice:Invoice 
+  @Input() events: Observable<void> //event to mange change in Parent Component
+  @Input() currentSelectedInvoice:Invoice  
   constructor(private fb: FormBuilder ,private appcomponent:AppComponent) { }
 
 
 
-
+/**
+ * initial function
+ * subscribe to change of the selected Invoice in the Parent Component
+ */
   ngOnInit() {
  
     this.setFormValue()
@@ -52,7 +55,11 @@ export class EditorComponent implements OnInit {
 
   }
 
-  onChanges(): void {
+
+/**
+ * detects the change of the Form value and calculates new Values
+ */
+onChanges(): void {
     this.myForm.valueChanges.subscribe(() => {
       
       this.calcSum()
@@ -62,7 +69,9 @@ export class EditorComponent implements OnInit {
   }
 
 
-
+/**
+ * set the Value to the Formcontrols
+ */
 setFormValue(){
 
  
@@ -109,6 +118,11 @@ this.calcSum()
 
 }
 
+
+/**
+ * create a new inline item
+ */
+
 createNewEmptyItem():FormGroup{
   return this.fb.group({
     name: "",
@@ -120,13 +134,19 @@ createNewEmptyItem():FormGroup{
 }
 
 
+/**
+ * adds empty item to inline elements
+ */
 
 addItem(){
   this.line_items=this.myForm.get("line_items") as FormArray
   this.line_items.push(this.createNewEmptyItem())
 }
 
-
+/**
+ * delete the inline element at Index i
+ * @param i index
+ */
 removeItem(i){
   this.line_items=this.myForm.get("line_items") as FormArray
   this.line_items.removeAt(i)
@@ -134,6 +154,9 @@ removeItem(i){
 
 
 
+/**
+ * clears an resets the Form
+ */
 
 refresh(){
   this.currentSelectedInvoice=this.appcomponent.currentSelectedInvoice
@@ -143,7 +166,9 @@ refresh(){
 }
 
 
-
+/**
+ * saves the Current Changes in the Selected Invoice
+ */
 saveCurrentChanges(){
   var a= this.appcomponent.invoicesList.findIndex(    x => x== this.currentSelectedInvoice      )
 
@@ -157,6 +182,9 @@ saveCurrentChanges(){
   this.appcomponent.calcBNT()
 }
 
+/**
+ * calculate the sum/value of all line items
+ */
 
 calcSum(){
   this.sumArray=[]
@@ -172,6 +200,10 @@ calcSum(){
   });
 
 }
+
+/**
+ * deletes the current selected Invoice and sets the first Invoice as Selected
+ */
 
 deleteCurrentInvoice(){
   if (confirm('Are you sure you want to delete this Invoice?')) {

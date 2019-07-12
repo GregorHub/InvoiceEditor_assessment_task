@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
-import raw_invoices from 'src/assets/raw_invoices.json';
+import raw_invoices from 'src/assets/raw_invoices.json'; // Import the Invoice Data 
 import { Subject } from 'rxjs';
 
 
@@ -56,7 +56,11 @@ export class AppComponent {
       this.calcBNT()
   }
 
- 
+ /**
+  * ads new invoice
+  * listens to event in child 
+  * @param $event Invoice
+  */
   addNewInvoice($event){
 
    this.invoicesList.push($event)
@@ -67,7 +71,10 @@ export class AppComponent {
    this.calcBNT()
   }
 
-
+/**
+ * select Invoice by Index
+ * @param $event Index
+ */
   selectInvoice($event){
 
     this.currentSelectedInvoice=this.invoicesList[$event]
@@ -78,6 +85,10 @@ export class AppComponent {
     this.calcBNT()
   }
 
+
+/**
+ * calculates the Value of the Invoice
+ */
 
 calcBNT(){
   this.sum=0
@@ -99,6 +110,10 @@ this.sum=this.sum+c
 
 private eventsSubject: Subject<void> = new Subject<void>();
 
+/**
+ * event emit to track changes 
+ * listend by the editor 
+ */
 emitEventToChild() {
   this.eventsSubject.next()
 
