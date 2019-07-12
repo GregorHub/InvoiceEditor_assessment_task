@@ -5,7 +5,7 @@
 
 <div class="container">
 
-<button (click)="refresh()">refreseh</button>
+
 
 
 <form [formGroup]="myForm"  >
@@ -139,7 +139,7 @@
           <div class="col-md-1 no-float "><h5>Summe</h5></div>
         </div>
       
-         <div formArrayName="items" *ngFor="let item of myForm.get('items').controls; index as i" class="form-group row"> 
+         <div formArrayName="line_items" *ngFor="let item of myForm.get('line_items').controls; index as i" class="form-group row"> 
          <div [formGroupName]="i">
           <div class=" col-md-1">
              <span class=" col-md-1">{{i+1}}</span>
@@ -155,23 +155,47 @@
                     <input class=" col-md-10 no-float" formControlName="quantity"   >
                    </div>  
                    <div class=" col-md-1 no-float">
-                      <input class=" col-md-10 no-float"  formControlName="price_cents"  type="number" >
+                      <input class=" col-md-12 no-float"  formControlName="price_cents"  >
                      </div> 
-                     <div class=" col-md-1 no-float">
-                        <input class=" col-md-12 no-float" >
+                     <div class=" col-md-1 no-float text-right">
+                     {{sumArray[i]/100  | currency: 'EUR':'symbol':undefined:'fr-FR' }}
                        </div>
                       </div>
-                      <button class="btn btn-sm mt-2 btn-primary btnAdd" (click)="removeItem(i)" >delete</button>
+                      <button class="btn btn-sm mt-2 btn-primary btnAdd"  (click)="removeItem(i)" >delete</button>
           </div>
 
           <button class="btn btn-sm mt-2 btn-primary btnAdd" (click)="addItem()" >+</button>
-
-
+         
+          <div class="row "> 
+              <div class="col-md-8 no-float" > </div>
+              <div class="col-md-2 no-float text-right" > Summe  {{sumAll/100  | currency: 'EUR':'symbol':undefined:'fr-FR' }} </div>
+        
+            </div>    
+            <div class="row "> 
+                <div class="col-md-8 no-float" > </div>
+                <div class="col-md-2 no-float text-right" >  Um.St(19%)  {{sumAll/100*0.19  | currency: 'EUR':'symbol':undefined:'fr-FR' }}</div>
+          
+              </div> 
+              <div class="row "> 
+                  <div class="col-md-8 no-float  " > </div>
+                  <div class="col-md-2 no-float text-right" > Brutto  {{(sumAll/100)+(sumAll/100*0.19)  | currency: 'EUR':'symbol':undefined:'fr-FR' }}  </div>
+            
+                </div> 
       </div> 
-
+     
 
     </form>
 
 
 
+    <div class="row"> 
+      <div class="col-md-12 no-float "></div>
+  <div class="row "> 
+      <div class="col-md-1 no-float "> <button class="btn  btn-primary" (click)="saveCurrentChanges()">Speichern</button></div>
+      <div class="col-md-2 no-float "><button class="btn   btn-primary" (click)="deleteCurrentInvoice()">Löschen</button></div>
+
+    </div>
+
+
 </div>
+  </div>

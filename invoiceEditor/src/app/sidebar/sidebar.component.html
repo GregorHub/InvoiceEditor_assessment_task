@@ -13,14 +13,23 @@
 
 <div class="invoiceList ">
 
+
+    
 <div *ngFor="let e of invoices_local; index as i" class="list-group">
     
 
-<div *ngIf="e.customer_name==currentSelectedInvoice.customer_name" class="list-group-item active" >     {{e.customer_name}}  {{e.netto}}€ </div>
-<div *ngIf="e.customer_name!=currentSelectedInvoice.customer_name" class="list-group-item " (click)="selectCurrentInvoice(i)" >     {{e.customer_name}} {{e.netto}}€  </div>
+<div *ngIf="e.customer_name==currentSelectedInvoice.customer_name" class="list-group-item active" >     {{e.customer_name}}  {{calcArray[i]/100| currency: 'EUR':'symbol':undefined:'fr-FR' }}  </div>
+<div *ngIf="e.customer_name!=currentSelectedInvoice.customer_name" class="list-group-item " (click)="selectCurrentInvoice(i)" >     {{e.customer_name}} {{calcArray[i]/100| currency: 'EUR':'symbol':undefined:'fr-FR' }}  </div>
 </div>
 
 </div>
+
+<div class="sum ">
+  <span class=" span">Summe {{sum/100| currency: 'EUR':'symbol':undefined:'fr-FR' }} </span> <br>
+  <span class="col-form-label">Um.St.(19%) {{(sum/100)*0.19| currency: 'EUR':'symbol':undefined:'fr-FR' }}</span> <br>
+  <span class=" col-form-label">Brutto  {{(sum/100)+(sum/100)*0.19| currency: 'EUR':'symbol':undefined:'fr-FR' }}</span> 
+</div>
+
 <div class="bottomBtn">
     <tr>
         <td><button class="align-self-end btn btn-lg  btn-primary" (click)="importJson()">Import</button>  </td> 

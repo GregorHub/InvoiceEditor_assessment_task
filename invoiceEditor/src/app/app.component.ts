@@ -10,6 +10,8 @@ name
 description:string
 quantity:number
 price_cents:number
+
+
 }
 
 export interface Invoice {
@@ -31,9 +33,7 @@ export interface Invoice {
   invoice_date: string
   invoice_due_date:string
   line_items:lineItems[]
-  netto?:number
-  taxes?:number
-  brutto?:number
+
 
 }
 
@@ -47,45 +47,52 @@ export class AppComponent {
   title = 'invoiceEditor';
   invoicesList:Invoice[];
   currentSelectedInvoice:Invoice;
-
+  calcArray:number[]=[]
+  sum:number=0
   constructor(){
 
       this.invoicesList=raw_invoices
       this.currentSelectedInvoice=this.invoicesList[0]
-      this.calcBNT({})
+      this.calcBNT()
   }
 
  
   addNewInvoice($event){
-   console.log($event)
+
    this.invoicesList.push($event)
 
 
    this.currentSelectedInvoice=this.invoicesList[this.invoicesList.length-1]
    this.emitEventToChild()
+   this.calcBNT()
   }
 
 
   selectInvoice($event){
-    
 
     this.currentSelectedInvoice=this.invoicesList[$event]
 
 
+
     this.emitEventToChild()
-   console.log(this.currentSelectedInvoice)
+    this.calcBNT()
   }
 
 
-calcBNT($event){
+calcBNT(){
+  this.sum=0
+  this.calcArray=[]
+ 
 this.invoicesList.forEach(element => {
   
   var c=0
+  if(element.line_items.length>0){
   element.line_items.forEach(el => {
     c=c+(el.price_cents*el.quantity)
   });
-  
-  element.netto=c/100
+}
+  this.calcArray.push(c)
+this.sum=this.sum+c
 });
 }
 

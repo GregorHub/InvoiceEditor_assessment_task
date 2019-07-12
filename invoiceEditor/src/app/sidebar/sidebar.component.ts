@@ -13,6 +13,8 @@ import { Invoice } from '../app.component';
 export class SidebarComponent implements OnInit {
 
   @Input() invoices_local
+  @Input() calcArray
+  @Input() sum
   @Input() currentSelectedInvoice:Invoice
   @Output() newInvoice = new EventEmitter();
   @Output() selctNewInvoice= new EventEmitter();
@@ -60,9 +62,7 @@ export class SidebarComponent implements OnInit {
 
   selectCurrentInvoice(i){
     this.selctNewInvoice.emit(i)
-
-
-
+    console.log(i)
   }
 
   exportJson(){

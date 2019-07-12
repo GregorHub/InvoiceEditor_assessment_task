@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, empty } from 'rxjs';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { AppComponent, Invoice } from '../app.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { element } from 'protractor';
 
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
@@ -14,16 +16,16 @@ export class EditorComponent implements OnInit {
 
   myForm: FormGroup;
 
- 
-  items:FormArray
-
+ sumArray:number[]=[]
+ sumAll:number =0
+ line_items:FormArray
 
 
   private eventsSubscription: any
 
   @Input() events: Observable<void>
-  @Input() currentSelectedInvoice 
-  constructor(private fb: FormBuilder ,private ac:AppComponent) { }
+  @Input() currentSelectedInvoice:Invoice 
+  constructor(private fb: FormBuilder ,private appcomponent:AppComponent) { }
 
 
 
@@ -32,16 +34,18 @@ export class EditorComponent implements OnInit {
  
     this.setFormValue()
     this.onChanges()
+
     this.eventsSubscription = this.events.subscribe(() =>
-    { this.currentSelectedInvoice=this.ac.currentSelectedInvoice
+    { this.currentSelectedInvoice=this.appcomponent.currentSelectedInvoice
       this.refresh()
     
    
       this.onChanges()
     })
+    
 
 
-   this.currentSelectedInvoice.line_items.forEach(element => {
+   this.currentSelectedInvoice.line_items.forEach(() => {
      this.createNewEmptyItem()
    });
 
@@ -49,9 +53,9 @@ export class EditorComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.myForm.valueChanges.subscribe(val => {
+    this.myForm.valueChanges.subscribe(() => {
       
-     console.log(val)
+      this.calcSum()
      
 
     });
@@ -80,19 +84,28 @@ setFormValue(){
     invoice_period: this.currentSelectedInvoice.invoice_period	,
     invoice_date: 	this.currentSelectedInvoice.invoice_date,
     invoice_due_date:this.currentSelectedInvoice.invoice_due_date,
-    items:this.fb.array([])
+    line_items:this.fb.array([])
   })
 
+  if(this.currentSelectedInvoice.line_items.length>0){
+    var c=0
 this.currentSelectedInvoice.line_items.forEach(element => {
+    
     var n = this.fb.group({
       name: element.name,
       description:element.description, 
       quantity: element.quantity,
-      price_cents:element.price_cents
+      price_cents: element.price_cents
+    
     })
-    this.items=this.myForm.get("items") as FormArray
-    this.items.push(n)
+    this.line_items=this.myForm.get("line_items") as FormArray
+    this.line_items.push(n)
+
+
 });
+this.calcSum()
+}
+
 
 }
 
@@ -109,21 +122,21 @@ createNewEmptyItem():FormGroup{
 
 
 addItem(){
-  this.items=this.myForm.get("items") as FormArray
-  this.items.push(this.createNewEmptyItem())
+  this.line_items=this.myForm.get("line_items") as FormArray
+  this.line_items.push(this.createNewEmptyItem())
 }
 
 
 removeItem(i){
-  this.items=this.myForm.get("items") as FormArray
-  this.items.removeAt(i)
+  this.line_items=this.myForm.get("line_items") as FormArray
+  this.line_items.removeAt(i)
 }
 
 
 
 
 refresh(){
-  this.currentSelectedInvoice=this.ac.currentSelectedInvoice
+  this.currentSelectedInvoice=this.appcomponent.currentSelectedInvoice
   this.myForm.reset()
   this.setFormValue()
   
@@ -131,8 +144,46 @@ refresh(){
 
 
 
+saveCurrentChanges(){
+  var a= this.appcomponent.invoicesList.findIndex(    x => x== this.currentSelectedInvoice      )
 
 
 
+  this.appcomponent.invoicesList[a]=this.myForm.value
+
+
+
+  this.appcomponent.currentSelectedInvoice =this.myForm.value
+  this.appcomponent.calcBNT()
+}
+
+
+calcSum(){
+  this.sumArray=[]
+  var a= this.line_items=this.myForm.get("line_items").value
+
+  a.forEach(element => {
+    this.sumArray.push( element.price_cents*element.quantity)   
+  });
+ 
+  this.sumAll=0
+  this.sumArray.forEach(element => {
+    this.sumAll=this.sumAll+element
+  });
+
+}
+
+deleteCurrentInvoice(){
+  if (confirm('Are you sure you want to delete this Invoice?')) {
+    var a=this.appcomponent.invoicesList.findIndex( element => element== this.currentSelectedInvoice)
+    this.appcomponent.invoicesList.splice(a,1)
+ 
+    this.appcomponent.selectInvoice(0)
+console.log(a)
+} else {
+    // Do nothing!
+}
+
+}
 
 }
